@@ -34,16 +34,22 @@ module.exports = function(grunt) {
     },
 
     uglify: {
-      my_target : {
+      my_target: {
         files: {
-          'public/dist/<%= pkg.name %>.js' : ['public/dist/<%= pkg.name %>.js']
+          'public/dist/<%= pkg.name %>.js' : [
+            'public/**/*.js']
         }
       }
     },
 
     eslint: {
       target: {
-        src: ['app/**/*.js']
+        src: [
+          'app/**/*.js',
+          'lib/*.js',
+          'public/client/*.js',
+          'public/style.css'
+        ]
       }
     },
 
@@ -71,6 +77,21 @@ module.exports = function(grunt) {
       prodServer: {
       }
     },
+
+    // env: {
+    //   options : {
+
+    //   },
+    //   dev: {
+    //     NODE_ENV : 'development',
+    //   },
+    //   build : {
+    //     NODE_ENV : 'production',
+    //     DEST : 'dist'
+    //   }
+
+    // },
+
   });
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -82,6 +103,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-nodemon');
   grunt.loadNpmTasks('grunt-git');
+  grunt.loadNpmTasks('grunt-env');
 
   grunt.registerTask('server-dev', function (target) {
     // Running nodejs in a different process and displaying output on the main console
@@ -90,6 +112,7 @@ module.exports = function(grunt) {
       grunt: true,
       args: 'nodemon'
     });
+    console.log(process.env);
     nodemon.stdout.pipe(process.stdout);
     nodemon.stderr.pipe(process.stderr);
 
@@ -113,11 +136,19 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('build', [
+    'concat',
+    'uglify',
+    'test'
   ]);
 
   grunt.registerTask('upload', function(n) {
     if (grunt.option('prod')) {
       // add your production server task here
+      grunt.task.run([
+        'build',
+        'gitpush'
+      ]);
+      // 
     } else {
       grunt.task.run([ 'server-dev' ]);
     }
@@ -125,6 +156,8 @@ module.exports = function(grunt) {
 
   grunt.registerTask('deploy', [
     // add your deploy tasks here
+    'upload',
+    'nodemon'
   ]);
 
 
