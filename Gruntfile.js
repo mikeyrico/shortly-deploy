@@ -11,6 +11,11 @@ module.exports = function(grunt) {
       }
     },
     concat: {
+      options: { separator: ';' },
+      dist: {
+        src: ['public/**/*.js'],
+        dest: 'public/min/<%= pkg.name %>.js'
+      }
     },
 
     mochaTest: {
