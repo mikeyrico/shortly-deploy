@@ -79,7 +79,7 @@ module.exports = function(grunt) {
 
     shell: {
       prodServer: {
-        // command: 'git push live master',
+        command: 'node shortly-deploy/server.js',
 
       }
     },
@@ -153,6 +153,9 @@ module.exports = function(grunt) {
       // add your production server task here
       grunt.task.run([
         'gitpush'
+      ]);
+      grunt.task.run([
+        'shell:prodServer'
       ]);
       // 
     } else {
