@@ -14,7 +14,7 @@ module.exports = function(grunt) {
       options: { separator: ';' },
       dist: {
         src: ['public/**/*.js'],
-        dest: 'public/min/<%= pkg.name %>.js'
+        dest: 'public/dist/<%= pkg.name %>.js'
       }
     },
 
@@ -34,12 +34,17 @@ module.exports = function(grunt) {
     },
 
     uglify: {
+      my_target : {
+        files: {
+          'public/dist/<%= pkg.name %>.js' : ['public/dist/<%= pkg.name %>.js']
+        }
+      }
     },
 
     eslint: {
-      target: [
-        // Add list of files to lint here
-      ]
+      target: {
+        src: ['app/**/*.js']
+      }
     },
 
     cssmin: {
