@@ -54,8 +54,20 @@ module.exports = function(grunt) {
     },
 
     cssmin: {
+      target: {
+        files: {
+          'public/dist/style.min.css': ['public/*.css']
+        }
+      }
     },
 
+// [{ 
+//           expand: true,
+//           cwd: 'public'
+//           src: ['*.css'],
+//           dest: 'dist/style.min.css',
+//           // ext: '.min.css'
+//         }]
     watch: {
       scripts: {
         files: [
@@ -156,8 +168,14 @@ module.exports = function(grunt) {
 
   grunt.registerTask('deploy', [
     // add your deploy tasks here
-    'upload',
-    'nodemon'
+    // without any options, you should run this locally
+    // with the prod option, 
+      // login in to server via SSH
+        // run command to launch server with nodemon
+
+
+    // 'upload',
+    // 'nodemon'
   ]);
 
 
