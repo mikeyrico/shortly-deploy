@@ -48,7 +48,6 @@ module.exports = function(grunt) {
           'app/**/*.js',
           'lib/*.js',
           'public/client/*.js',
-          'public/style.css'
         ]
       }
     },
@@ -61,13 +60,6 @@ module.exports = function(grunt) {
       }
     },
 
-// [{ 
-//           expand: true,
-//           cwd: 'public'
-//           src: ['*.css'],
-//           dest: 'dist/style.min.css',
-//           // ext: '.min.css'
-//         }]
     watch: {
       scripts: {
         files: [
@@ -87,6 +79,8 @@ module.exports = function(grunt) {
 
     shell: {
       prodServer: {
+        // command: 'git push live master',
+
       }
     },
 
@@ -144,20 +138,20 @@ module.exports = function(grunt) {
   ////////////////////////////////////////////////////
 
   grunt.registerTask('test', [
-    'mochaTest'
+    'eslint',
+    'mochaTest',
   ]);
 
   grunt.registerTask('build', [
     'concat',
     'uglify',
-    'test'
+    'cssmin'
   ]);
 
   grunt.registerTask('upload', function(n) {
     if (grunt.option('prod')) {
       // add your production server task here
       grunt.task.run([
-        'build',
         'gitpush'
       ]);
       // 
@@ -167,15 +161,9 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('deploy', [
-    // add your deploy tasks here
-    // without any options, you should run this locally
-    // with the prod option, 
-      // login in to server via SSH
-        // run command to launch server with nodemon
-
-
-    // 'upload',
-    // 'nodemon'
+    'test', 
+    'build',
+    'upload'
   ]);
 
 
